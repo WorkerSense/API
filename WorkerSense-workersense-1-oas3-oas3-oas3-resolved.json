@@ -1,0 +1,334 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "WorkerSenseAPI",
+    "version": "1-oas3-oas3-oas3"
+  },
+  "servers": [
+    {
+      "url": "https://api.workersense.com"
+    }
+  ],
+  "paths": {
+    "/oauth/token": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Get Or Refresh An Access Token",
+        "description": "Used to acquire a new access token or refresh an existing access token. Certain parameter combinations and values are used depending on which scenario you are handling.\n\n**Basic Authorization header containing your WorkerSense account email and password is required only for \"password\" grant types.**",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/body"
+              },
+              "examples": {
+                "Password": {
+                  "value": {
+                    "grant_type": "password"
+                  }
+                },
+                "Refresh Token": {
+                  "value": {
+                    "grant_type": "refresh_token",
+                    "refresh_token": "AGEhc0DQFS5xBUkPIkOfaiM_QBolN_zOMhakvUjZUN78haRlagzEwgPlgUzKawPwoJ0FAt9knwcsRCjK-fG9uifiDYC78F0tcVRd0aFkmG_RXsdK7dujPusJd1UyWuqKs_ap70-uWWb_jae-go0GDiMMkQHQ5MirhwvXlPOjDl16hk7FOQqHQKl7pU9q0nL9Sjf1vcxq6zANbxo0csS-ucHLBZjBRnjD-Q"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200"
+                },
+                "example": {
+                  "access_token": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImNjM2Y0ZThiMmYxZDAyZjBlYTRiMWJkZGU1NWFkZDhiMDhiYzUzODYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vd29ya2Vyc2Vuc2UiLCJhdWQiOiJ3b3JrZXJzZW5zZSIsImF1dGhfdGltZSI6MTYyMDcwNDIzNywidXNlcl9pZCI6IjlHdjRNVUt2UURoY292RklDSXRWdnRQWXVqMTIiLCJzdWIiOiI5R3Y0TVVLdlFEaGNvdkZJQ0l0VnZ0UFl1ajEyIiwiaWF0IjoxNjIwNzQyNzAyLCJleHAiOjE2MjA3NDYzMDIsImVtYWlsIjoiY2FueW9uQHdvcmtlcnNlbnNlLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIdpwImNhbnlvbkB3b3JrZXJzZW5zZS5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.h6pKDygoZW7mkrr1m2OmVpjE1iWrnxjbNw83dR7sY6NfQCmwwX8JOgV0Gcb0nGudFLpp9pxweJanSVIXEz2i6LPfY_VTV_YaLmyB_rNHkZ7-xWweJpmaluvtnuHCm4gBrG_f5Rs5xp4zzOkczWqyM51JPgkpaze7JGTGHPskqF_PnF3JHn3egLss6G_xUtsI4hxlrEaiIfZS3O15RTUXLYeAYtQYoRxZ7eMCrSj19865JtMw3p0rZOVSpVq5OxNFgoUp38RwfgO49DXGKnvLVGUy28_fOs_IkERApKkN42rSDM_MePdhlskl0abP-1AH-3b4jiQov1mdsIQA9WcxPQ",
+                  "refresh_token": "AGEhc0DQFS5xBUkPIkOfaiM_QBolN_zOMhakvUjZUN78haRlagzEwgPlgUzKawPwoJ0FAt9knwcsRCjK-fG9czfiDYC78F0tcVRd0aFkmG_RXsdK7fpwPusJd1UyWuqKs_ap70-uWWb_jae-go0GDiMMkQHQ5MirhwvRlPOjDl59hk7FOQqHQKl7pU9q0nL1Sjf1vcxq6zANbxo0csS-ucHLBZjBRnjD-Q",
+                  "token_type": "bearer",
+                  "expires": 3600
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {},
+          {
+            "BasicAuth": []
+          }
+        ]
+      }
+    },
+    "/projects": {
+      "get": {
+        "tags": [
+          "Project"
+        ],
+        "summary": "List Projects",
+        "description": "Return a list of projects the user has been added to.",
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/inline_response_200_1"
+                  }
+                },
+                "example": [
+                  {
+                    "client": "WJR1fb2dx7dEqFwT0vNM",
+                    "project": "lzPBZLDEnHp9h13VHxm7",
+                    "name": "Simulator Site",
+                    "city": "Los Angeles",
+                    "state": "CA",
+                    "lon": -118.253248,
+                    "lat": 34.050064,
+                    "progression": 0.683279902,
+                    "start": 1483300814000
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/projects/timecards": {
+      "post": {
+        "tags": [
+          "Project"
+        ],
+        "summary": "Show Project Timecards",
+        "description": "Return detailed timecard information for all companies on site for a selected day.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/body_1"
+              },
+              "example": {
+                "client": "WJR1fb2dx7dEqFwT0vNM",
+                "project": "lzPBZLDEnHp9h13VHxm7",
+                "date": "2021-05-10"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/inline_response_200_2"
+                  }
+                },
+                "example": [
+                  {
+                    "name": "WorkerSense, Inc",
+                    "status": "On Site",
+                    "headcount": "1 Worker",
+                    "arrival": "6:46 AM",
+                    "workers": [
+                      {
+                        "name": "John Appleseed",
+                        "status": "On Site",
+                        "arrival": "6:46 AM",
+                        "exit": "None",
+                        "duration": "4:32 Hours"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "body_1": {
+        "required": [
+          "client",
+          "date",
+          "project"
+        ],
+        "type": "object",
+        "properties": {
+          "client": {
+            "type": "string",
+            "description": "Client ID"
+          },
+          "project": {
+            "type": "string",
+            "description": "Project ID"
+          },
+          "date": {
+            "type": "string",
+            "description": "Date, formatted YYYY-MM-DD"
+          }
+        }
+      },
+      "projectstimecards_workers": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "returns worker's full name"
+          },
+          "status": {
+            "type": "string",
+            "description": "returns \"On Site\" or \"Not on Site\""
+          },
+          "arrival": {
+            "type": "string",
+            "description": "returns worker arrival time, formatted in a localized h:mm PM timestamp"
+          },
+          "exit": {
+            "type": "string",
+            "description": "returns worker exit time, formatted in a localized h:mm PM timestamp, or \"None\" if worker is still on site"
+          },
+          "duration": {
+            "type": "string",
+            "description": "returns current duration of worker's time on site, or total time on site if currently off site"
+          }
+        }
+      },
+      "inline_response_200_1": {
+        "type": "object",
+        "properties": {
+          "client": {
+            "type": "string",
+            "description": "Client ID"
+          },
+          "project": {
+            "type": "string",
+            "description": "Project ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of project"
+          },
+          "city": {
+            "type": "string",
+            "description": "City of project location"
+          },
+          "state": {
+            "type": "string",
+            "description": "State of project location"
+          },
+          "lon": {
+            "type": "number",
+            "description": "Longitude coordinate of project centroid"
+          },
+          "lat": {
+            "type": "number",
+            "description": "Latitude coordinate of project centroid"
+          },
+          "progression": {
+            "type": "number",
+            "description": "Project progression percentage"
+          },
+          "start": {
+            "type": "integer",
+            "description": "UNIX timestamp representing project start date"
+          }
+        }
+      },
+      "inline_response_200": {
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "type": "string"
+          },
+          "refresh_token": {
+            "type": "string"
+          },
+          "token_type": {
+            "type": "string"
+          },
+          "expires": {
+            "type": "integer"
+          }
+        }
+      },
+      "inline_response_200_2": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "returns name of subcontractor"
+          },
+          "status": {
+            "type": "string",
+            "description": "returns \"On Site\" or \"Not on Site\""
+          },
+          "headcount": {
+            "type": "string",
+            "description": "returns total subcontractor headcount"
+          },
+          "arrival": {
+            "type": "string",
+            "description": "returns average subcontractor arrival time, formatted in a localized h:mm PM timestamp"
+          },
+          "workers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/projectstimecards_workers"
+            }
+          }
+        }
+      },
+      "body": {
+        "required": [
+          "grant_type"
+        ],
+        "type": "object",
+        "properties": {
+          "grant_type": {
+            "type": "string"
+          },
+          "refresh_token": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "BasicAuth": {
+        "type": "http",
+        "description": "Provide Email and Password",
+        "scheme": "basic"
+      },
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
