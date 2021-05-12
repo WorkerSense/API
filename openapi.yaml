@@ -93,7 +93,7 @@ paths:
             example:
               client: WJR1fb2dx7dEqFwT0vNM
               project: lzPBZLDEnHp9h13VHxm7
-              date: '2021-05-12'
+              date: "2021-05-12"
         required: true
       responses:
         "200":
@@ -140,7 +140,7 @@ paths:
             example:
               client: WJR1fb2dx7dEqFwT0vNM
               project: lzPBZLDEnHp9h13VHxm7
-              date: 2021-05-12
+              date: "2021-05-12"
         required: true
       responses:
         "200":
@@ -183,7 +183,7 @@ paths:
             example:
               client: WJR1fb2dx7dEqFwT0vNM
               project: lzPBZLDEnHp9h13VHxm7
-              date: 2021-05-12
+              date: "2021-05-12"
         required: true
       responses:
         "200":
@@ -226,7 +226,7 @@ paths:
             example:
               client: WJR1fb2dx7dEqFwT0vNM
               project: lzPBZLDEnHp9h13VHxm7
-              date: 2021-05-12
+              date: "2021-05-12"
         required: true
       responses:
         "200":
