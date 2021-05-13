@@ -50,7 +50,7 @@ paths:
   /projects:
     get:
       tags:
-      - Project
+      - Portfolio
       summary: List Projects
       description: Return a list of projects the user has been added to.
       operationId: projectsGET
@@ -76,11 +76,319 @@ paths:
                 start: 1483300814000
       security:
       - BearerAuth: []
-      x-swagger-router-controller: Project
+      x-swagger-router-controller: Portfolio
+    post:
+      tags:
+      - Portfolio
+      summary: Create Project
+      description: Create a new project within a WorkerSense client account.
+      operationId: projectsPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/body_1'
+            example:
+              name: Sample Construction Project
+              address_1: 555 W 5th St
+              address_2: 35th Floor
+              city: Los Angeles
+              state: CA
+              zip: "90013"
+              country: United States
+              start: 1620935064000
+              end: 1639267200000
+        required: true
+      responses:
+        "200":
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_2'
+              example:
+                success: true
+                id: 6lenfgcbLDns9Avbn8z8
+      security:
+      - BearerAuth: []
+      x-swagger-router-controller: Portfolio
+  /projects/{project}/companies:
+    get:
+      tags:
+      - Project Directory
+      summary: Show Project Companies
+      description: "Return a list of all companies (vendors, subcontractors, etc)\
+        \ included within the project directory."
+      operationId: projectsProjectCompaniesGET
+      parameters:
+      - name: project
+        in: path
+        description: Unique ID of the project
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/inline_response_200_3'
+                x-content-type: application/json
+              example:
+              - name: Santa Monica Drywall
+                id: LqRIXJlk5z7czKLNv5ML
+                address_1: 1133 9th St
+                address_2: ""
+                city: Santa Monica
+                state: CA
+                zip: "90403"
+                country: United States
+                phone: +13103020019
+      security:
+      - BearerAuth: []
+      x-swagger-router-controller: ProjectDirectory
+    post:
+      tags:
+      - Project Directory
+      summary: Add a Company
+      description: "Add a company (vendor, subcontractor, etc) to a project."
+      operationId: projectsProjectCompaniesPOST
+      parameters:
+      - name: project
+        in: path
+        description: Unique ID of the project
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/body_2'
+            example:
+              name: Santa Monica Drywall
+              address_1: 1133 9th St
+              address_2: ""
+              city: Santa Monica
+              state: CA
+              zip: "90403"
+              country: United States
+              phone: +13103020019
+        required: true
+      responses:
+        "200":
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_4'
+              example:
+                success: true
+                id: LqRIXJlk5z7czKLNv5ML
+      security:
+      - BearerAuth: []
+      x-swagger-router-controller: ProjectDirectory
+  /projects/{project}/users:
+    get:
+      tags:
+      - Project Directory
+      summary: Show Project Users
+      description: Return a list of all users (management personnel) included within
+        the project directory.
+      operationId: projectsProjectUsersGET
+      parameters:
+      - name: project
+        in: path
+        description: Unique ID of the project
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/inline_response_200_5'
+                x-content-type: application/json
+              example:
+              - name: Ada Lovelace
+                id: 2OImMD9zR9tvkeFEOmoO
+                first: Ada
+                last: Lovelace
+                initials: AL
+                cell_phone: +13104590188
+                email: ada@workersense.com
+                city: Los Angeles
+                state: CA
+                zip: "90013"
+                country: United States
+                created: 1612883478000
+                logged_in: true
+                assigned_mount: false
+                mount_id: ""
+                company:
+                  name: "WorkerSense, Inc"
+                  id: WJR1fb2dx7dEqFwT0vNM
+                permissions:
+                  anonymized_individuals: false
+                  company_only_visibility: false
+                  dashboard_access:
+                  - dashboard_main
+                  - production
+                  - health_and_safety
+                  - integrations
+                  - reports
+                  - automation
+                  - fleet
+                  - admin
+                  - billing
+      security:
+      - BearerAuth: []
+      x-swagger-router-controller: ProjectDirectory
+    post:
+      tags:
+      - Project Directory
+      summary: Add a User
+      description: Add a user (management personnel) to a project.
+      operationId: projectsProjectUsersPOST
+      parameters:
+      - name: project
+        in: path
+        description: Unique ID of the project
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/body_3'
+            example:
+              company: WJR1fb2dx7dEqFwT0vNM
+              first: Ada
+              last: Lovelace
+              email: ada@workersense.com
+        required: true
+      responses:
+        "200":
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_6'
+              example:
+                success: true
+                id: 2OImMD9zR9tvkeFEOmoO
+      security:
+      - BearerAuth: []
+      x-swagger-router-controller: ProjectDirectory
+  /projects/{project}/workers:
+    get:
+      tags:
+      - Project Directory
+      summary: Show Project Workers
+      description: Return a list of all workers included within the project directory.
+      operationId: projectsProjectWorkersGET
+      parameters:
+      - name: project
+        in: path
+        description: Unique ID of the project
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/inline_response_200_7'
+                x-content-type: application/json
+              example:
+              - name: Tom Cruise
+                id: hXIZZ8HIdjn29EdX8OvB
+                first: Tom
+                last: Cruise
+                initials: TC
+                cell_phone: +13109412384
+                email: ""
+                city: Los Angeles
+                state: CA
+                zip: "90013"
+                country: United States
+                created: 1612883478000
+                assigned_mount: true
+                mount_id: "901345"
+                last_seen: 1620944836000
+                on_site: false
+                company:
+                  name: "WorkerSense, Inc"
+                  id: WJR1fb2dx7dEqFwT0vNM
+      security:
+      - BearerAuth: []
+      x-swagger-router-controller: ProjectDirectory
+    post:
+      tags:
+      - Project Directory
+      summary: Add a Worker
+      description: Add a worker to a project.
+      operationId: projectsProjectWorkersPOST
+      parameters:
+      - name: project
+        in: path
+        description: Unique ID of the project
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/body_4'
+            example:
+              first: Tom
+              last: Cruise
+              cell_phone: +13109412384
+              company: WJR1fb2dx7dEqFwT0vNM
+              mount_id: "901345"
+        required: true
+      responses:
+        "200":
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_8'
+              example:
+                success: true
+                id: hXIZZ8HIdjn29EdX8OvB
+      security:
+      - BearerAuth: []
+      x-swagger-router-controller: ProjectDirectory
   /projects/timecards:
     post:
       tags:
-      - Project
+      - Operations
       summary: Show Project Timecards
       description: Return detailed timecard information for all companies on site
         for a selected day.
@@ -89,11 +397,11 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/body_1'
+              $ref: '#/components/schemas/body_5'
             example:
               client: WJR1fb2dx7dEqFwT0vNM
               project: lzPBZLDEnHp9h13VHxm7
-              date: "2021-05-12"
+              date: 2021-05-12
         required: true
       responses:
         "200":
@@ -103,7 +411,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/inline_response_200_2'
+                  $ref: '#/components/schemas/inline_response_200_9'
                 x-content-type: application/json
               example:
               - name: "WorkerSense, Inc"
@@ -123,11 +431,11 @@ paths:
                   duration: 272.6
       security:
       - BearerAuth: []
-      x-swagger-router-controller: Project
+      x-swagger-router-controller: Operations
   /projects/risk:
     post:
       tags:
-      - Project
+      - Health and Safety
       summary: Show Project Risk Factors
       description: Return detailed risk assessment information for all workers on
         site for a selected day.
@@ -136,11 +444,11 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/body_2'
+              $ref: '#/components/schemas/body_6'
             example:
               client: WJR1fb2dx7dEqFwT0vNM
               project: lzPBZLDEnHp9h13VHxm7
-              date: "2021-05-12"
+              date: 2021-05-12
         required: true
       responses:
         "200":
@@ -150,7 +458,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/inline_response_200_3'
+                  $ref: '#/components/schemas/inline_response_200_10'
                 x-content-type: application/json
               example:
               - risk: Fall Risk
@@ -166,11 +474,11 @@ paths:
                   day_percentage: 0.94047
       security:
       - BearerAuth: []
-      x-swagger-router-controller: Project
+      x-swagger-router-controller: HealthAndSafety
   /projects/workforce:
     post:
       tags:
-      - Project
+      - Operations
       summary: Show Project Workforce Composition
       description: Return workforce composition information for all subcontractors
         on site for a selected day.
@@ -179,11 +487,11 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/body_3'
+              $ref: '#/components/schemas/body_7'
             example:
               client: WJR1fb2dx7dEqFwT0vNM
               project: lzPBZLDEnHp9h13VHxm7
-              date: "2021-05-12"
+              date: 2021-05-12
         required: true
       responses:
         "200":
@@ -191,7 +499,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200_4'
+                $ref: '#/components/schemas/inline_response_200_11'
               example:
                 peak_total_manpower: 1
                 subcontractors:
@@ -209,11 +517,11 @@ paths:
                     arrival_unix: 1620827055000
       security:
       - BearerAuth: []
-      x-swagger-router-controller: Project
+      x-swagger-router-controller: Operations
   /projects/zones:
     post:
       tags:
-      - Project
+      - Operations
       summary: Show Project Work Zones
       description: Return detailed location analysis for all workers on site for a
         selected day.
@@ -222,11 +530,11 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/body_4'
+              $ref: '#/components/schemas/body_8'
             example:
               client: WJR1fb2dx7dEqFwT0vNM
               project: lzPBZLDEnHp9h13VHxm7
-              date: "2021-05-12"
+              date: 2021-05-12
         required: true
       responses:
         "200":
@@ -236,7 +544,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/inline_response_200_5'
+                  $ref: '#/components/schemas/inline_response_200_12'
                 x-content-type: application/json
               example:
               - name: Building C (Scaffolding)
@@ -268,7 +576,7 @@ paths:
                     total_time: 88.78399
       security:
       - BearerAuth: []
-      x-swagger-router-controller: Project
+      x-swagger-router-controller: Operations
 components:
   schemas:
     projectsrisk_workers:
@@ -289,76 +597,101 @@ components:
           description: returns percentage of day spent exposed to present risk factor
             for selected date
       example:
-        duration: 5.962133916683182
-        day_percentage: 5.637376656633329
+        duration: 5.962133916683182377482808078639209270477294921875
+        day_percentage: 5.63737665663332876420099637471139430999755859375
         name: name
         id: id
-    projectszones_production:
+    inline_response_200_11:
       type: object
       properties:
-        activity_id:
-          type: string
-          description: returns production objective activity ID
-        activity_name:
-          type: string
-          description: returns production objective activity name
-        activity_rate:
-          type: number
-          description: returns production objective expected units per hour
-        company_id:
-          type: string
-          description: returns unique company ID if production objective is restricted
-            to a specific subcontractor
-        cost_code:
-          type: string
-          description: returns production objective cost code
+        peak_total_manpower:
+          type: integer
+          description: returns peak manpower for selected date
+        subcontractors:
+          type: array
+          items:
+            $ref: '#/components/schemas/inline_response_200_11_subcontractors'
       example:
-        activity_name: activity_name
-        company_id: company_id
-        activity_id: activity_id
-        activity_rate: 6.027456183070403
-        cost_code: cost_code
-    projectstimecards_workers:
+        peak_total_manpower: 0
+        subcontractors:
+        - headcount: 6
+          trend: trend
+          change: 1.46581298050294517310021547018550336360931396484375
+          name: name
+          id: id
+          workers:
+          - name: name
+            id: id
+            arrival_local: arrival_local
+            on_site: true
+            arrival_unix: 5
+          - name: name
+            id: id
+            arrival_local: arrival_local
+            on_site: true
+            arrival_unix: 5
+        - headcount: 6
+          trend: trend
+          change: 1.46581298050294517310021547018550336360931396484375
+          name: name
+          id: id
+          workers:
+          - name: name
+            id: id
+            arrival_local: arrival_local
+            on_site: true
+            arrival_unix: 5
+          - name: name
+            id: id
+            arrival_local: arrival_local
+            on_site: true
+            arrival_unix: 5
+    inline_response_200_10:
       type: object
       properties:
-        name:
+        risk:
           type: string
-          description: returns worker's full name
+          description: returns name of present risk factor
         id:
           type: string
-          description: returns unique ID of worker
-        on_site:
-          type: boolean
-          description: "returns true if worker is on site, false if not"
-        arrival_local:
-          type: string
-          description: "returns worker arrival time, formatted in a localized h:mm\
-            \ PM timestamp"
-        arrival_unix:
+          description: returns id of present risk factor
+        headcount:
           type: integer
-          description: "returns worker arrival time, formatted as a unix timestamp"
-        exit_local:
-          type: string
-          description: "returns worker exit time, formatted in a localized h:mm PM\
-            \ timestamp, or \"\" if worker is still on site"
-        exit_unix:
-          type: integer
-          description: "returns worker exit time, formatted as a unix timestamp, or\
-            \ 0 if worker is still on site"
-        duration:
+          description: returns total number of workers exposed to present risk factor
+            for selected date
+        workforce_percentage:
           type: number
-          description: "returns in minutes, current duration of worker's time on site,\
-            \ or total time on site if currently off site"
+          description: returns percentage of total workforce exposed to present risk
+            factor for selected date
+        change:
+          type: number
+          description: returns percentage difference in workforce exposure to present
+            risk factor relative to previous date
+        trend:
+          type: string
+          description: returns trend of percentage difference in workforce exposure
+            to present risk factor relative to previous date
+        workers:
+          type: array
+          items:
+            $ref: '#/components/schemas/projectsrisk_workers'
       example:
-        duration: 5.637376656633329
-        exit_local: exit_local
-        exit_unix: 5
-        name: name
+        headcount: 0
+        trend: trend
+        change: 1.46581298050294517310021547018550336360931396484375
+        risk: risk
         id: id
-        arrival_local: arrival_local
-        on_site: true
-        arrival_unix: 1
-    inline_response_200_5:
+        workforce_percentage: 6.02745618307040320615897144307382404804229736328125
+        workers:
+        - duration: 5.962133916683182377482808078639209270477294921875
+          day_percentage: 5.63737665663332876420099637471139430999755859375
+          name: name
+          id: id
+        - duration: 5.962133916683182377482808078639209270477294921875
+          day_percentage: 5.63737665663332876420099637471139430999755859375
+          name: name
+          id: id
+    inline_response_200_12:
       type: object
       properties:
         name:
@@ -415,44 +748,588 @@ components:
         - activity_name: activity_name
           company_id: company_id
           activity_id: activity_id
-          activity_rate: 6.027456183070403
+          activity_rate: 6.02745618307040320615897144307382404804229736328125
           cost_code: cost_code
         - activity_name: activity_name
           company_id: company_id
           activity_id: activity_id
-          activity_rate: 6.027456183070403
+          activity_rate: 6.02745618307040320615897144307382404804229736328125
           cost_code: cost_code
         name: name
         location:
         - location
         - location
         id: id
-        total_time: 0.8008281904610115
+        total_time: 0.80082819046101150206595775671303272247314453125
         certifications:
         - certifications
         - certifications
         traffic:
         - name: name
           id: id
-          total_time: 1.4658129805029452
+          total_time: 1.46581298050294517310021547018550336360931396484375
           workers:
           - name: name
             id: id
-            total_time: 5.962133916683182
+            total_time: 5.962133916683182377482808078639209270477294921875
           - name: name
             id: id
-            total_time: 5.962133916683182
+            total_time: 5.962133916683182377482808078639209270477294921875
         - name: name
           id: id
-          total_time: 1.4658129805029452
+          total_time: 1.46581298050294517310021547018550336360931396484375
           workers:
           - name: name
             id: id
-            total_time: 5.962133916683182
+            total_time: 5.962133916683182377482808078639209270477294921875
           - name: name
             id: id
-            total_time: 5.962133916683182
-    inline_response_200_4_workers:
+            total_time: 5.962133916683182377482808078639209270477294921875
+    body:
+      required:
+      - grant_type
+      type: object
+      properties:
+        grant_type:
+          type: string
+        refresh_token:
+          type: string
+    body_3:
+      required:
+      - company
+      - email
+      - first
+      - last
+      type: object
+      properties:
+        company:
+          type: string
+          description: Company ID
+        first:
+          type: string
+          description: First name
+        last:
+          type: string
+          description: Last name
+        email:
+          type: string
+          description: Email
+        mount_id:
+          type: string
+          description: 6-digit mount ID assigned to user (optional)
+    body_4:
+      required:
+      - company
+      - first
+      - last
+      - phone
+      type: object
+      properties:
+        first:
+          type: string
+          description: Worker first name
+        last:
+          type: string
+          description: Worker last name
+        phone:
+          type: string
+          description: "Worker phone (formatted: '+##########')"
+        company:
+          type: string
+          description: Company ID
+        mount_id:
+          type: string
+          description: Mount ID assignment (optional)
+    body_1:
+      required:
+      - address_1
+      - address_2
+      - city
+      - country
+      - end
+      - name
+      - start
+      - state
+      - zip
+      type: object
+      properties:
+        name:
+          type: string
+          description: Project name
+        address_1:
+          type: string
+          description: "Project address, primary"
+        address_2:
+          type: string
+          description: "Project address, secondary"
+        city:
+          type: string
+          description: Project city
+        state:
+          type: string
+          description: Project state (2-character code)
+        zip:
+          type: string
+          description: Project zip code
+        country:
+          type: string
+          description: Project country
+        start:
+          type: integer
+          description: Unix timestamp representing project start date
+        end:
+          type: integer
+          description: Unix timestamp representing project end date
+    body_2:
+      required:
+      - address_1
+      - address_2
+      - city
+      - country
+      - name
+      - phone
+      - state
+      - zip
+      type: object
+      properties:
+        name:
+          type: string
+          description: Company name
+        address_1:
+          type: string
+          description: "Company address, primary"
+        address_2:
+          type: string
+          description: "Company address, secondary"
+        city:
+          type: string
+          description: Company city
+        state:
+          type: string
+          description: Company state (2-character code)
+        zip:
+          type: string
+          description: Company zip
+        country:
+          type: string
+          description: Company country
+        phone:
+          type: string
+          description: "Company phone (formatted: '+##########')"
+    projectsprojectusers_company:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of user company
+        id:
+          type: string
+          description: Unique ID of user company
+      example:
+        name: name
+        id: id
+    inline_response_200:
+      type: object
+      properties:
+        access_token:
+          type: string
+        refresh_token:
+          type: string
+        token_type:
+          type: string
+        expires:
+          type: integer
+      example:
+        access_token: access_token
+        refresh_token: refresh_token
+        expires: 0
+        token_type: token_type
+    body_7:
+      required:
+      - client
+      - date
+      - project
+      type: object
+      properties:
+        client:
+          type: string
+          description: Client ID
+        project:
+          type: string
+          description: Project ID
+        date:
+          type: string
+          description: "Date, formatted YYYY-MM-DD"
+    body_8:
+      required:
+      - client
+      - date
+      - project
+      type: object
+      properties:
+        client:
+          type: string
+          description: Client ID
+        project:
+          type: string
+          description: Project ID
+        date:
+          type: string
+          description: "Date, formatted YYYY-MM-DD"
+    body_5:
+      required:
+      - client
+      - date
+      - project
+      type: object
+      properties:
+        client:
+          type: string
+          description: Client ID
+        project:
+          type: string
+          description: Project ID
+        date:
+          type: string
+          description: "Date, formatted YYYY-MM-DD"
+    body_6:
+      required:
+      - client
+      - date
+      - project
+      type: object
+      properties:
+        client:
+          type: string
+          description: Client ID
+        project:
+          type: string
+          description: Project ID
+        date:
+          type: string
+          description: "Date, formatted YYYY-MM-DD"
+    inline_response_200_9:
+      type: object
+      properties:
+        name:
+          type: string
+          description: returns name of subcontractor
+        id:
+          type: string
+          description: returns unique ID of subcontractor
+        on_site:
+          type: boolean
+          description: "returns true if subcontractor has workers on site, false if\
+            \ not"
+        headcount:
+          type: integer
+          description: returns total subcontractor headcount
+        arrival_local:
+          type: string
+          description: "returns average subcontractor arrival time, formatted in a\
+            \ localized h:mm PM timestamp"
+        arrival_unix:
+          type: integer
+          description: "returns average subcontractor arrival time, formatted as a\
+            \ unix timestamp"
+        workers:
+          type: array
+          items:
+            $ref: '#/components/schemas/projectstimecards_workers'
+      example:
+        headcount: 0
+        name: name
+        id: id
+        arrival_local: arrival_local
+        workers:
+        - duration: 5.63737665663332876420099637471139430999755859375
+          exit_local: exit_local
+          exit_unix: 5
+          name: name
+          id: id
+          arrival_local: arrival_local
+          on_site: true
+          arrival_unix: 1
+        - duration: 5.63737665663332876420099637471139430999755859375
+          exit_local: exit_local
+          exit_unix: 5
+          name: name
+          id: id
+          arrival_local: arrival_local
+          on_site: true
+          arrival_unix: 1
+        on_site: true
+        arrival_unix: 6
+    projectszones_production:
+      type: object
+      properties:
+        activity_id:
+          type: string
+          description: returns production objective activity ID
+        activity_name:
+          type: string
+          description: returns production objective activity name
+        activity_rate:
+          type: number
+          description: returns production objective expected units per hour
+        company_id:
+          type: string
+          description: returns unique company ID if production objective is restricted
+            to a specific subcontractor
+        cost_code:
+          type: string
+          description: returns production objective cost code
+      example:
+        activity_name: activity_name
+        company_id: company_id
+        activity_id: activity_id
+        activity_rate: 6.02745618307040320615897144307382404804229736328125
+        cost_code: cost_code
+    projectstimecards_workers:
+      type: object
+      properties:
+        name:
+          type: string
+          description: returns worker's full name
+        id:
+          type: string
+          description: returns unique ID of worker
+        on_site:
+          type: boolean
+          description: "returns true if worker is on site, false if not"
+        arrival_local:
+          type: string
+          description: "returns worker arrival time, formatted in a localized h:mm\
+            \ PM timestamp"
+        arrival_unix:
+          type: integer
+          description: "returns worker arrival time, formatted as a unix timestamp"
+        exit_local:
+          type: string
+          description: "returns worker exit time, formatted in a localized h:mm PM\
+            \ timestamp, or \"\" if worker is still on site"
+        exit_unix:
+          type: integer
+          description: "returns worker exit time, formatted as a unix timestamp, or\
+            \ 0 if worker is still on site"
+        duration:
+          type: number
+          description: "returns in minutes, current duration of worker's time on site,\
+            \ or total time on site if currently off site"
+      example:
+        duration: 5.63737665663332876420099637471139430999755859375
+        exit_local: exit_local
+        exit_unix: 5
+        name: name
+        id: id
+        arrival_local: arrival_local
+        on_site: true
+        arrival_unix: 1
+    inline_response_200_11_subcontractors:
+      type: object
+      properties:
+        name:
+          type: string
+          description: returns name of subcontractor
+        id:
+          type: string
+          description: returns unique id of subcontractor
+        headcount:
+          type: integer
+          description: returns total headcount of subcontractor for selected date
+        change:
+          type: number
+          description: returns percentage difference in total headcount of subcontractor
+            relative to previous date
+        trend:
+          type: string
+          description: returns trend of percentage difference in total headcount of
+            subcontractor relative to previous date
+        workers:
+          type: array
+          items:
+            $ref: '#/components/schemas/inline_response_200_11_workers'
+      example:
+        headcount: 6
+        trend: trend
+        change: 1.46581298050294517310021547018550336360931396484375
+        name: name
+        id: id
+        workers:
+        - name: name
+          id: id
+          arrival_local: arrival_local
+          on_site: true
+          arrival_unix: 5
+        - name: name
+          id: id
+          arrival_local: arrival_local
+          on_site: true
+          arrival_unix: 5
+    inline_response_200_5:
+      type: object
+      properties:
+        name:
+          type: string
+          description: User full name
+        id:
+          type: string
+          description: User ID
+        first:
+          type: string
+          description: User first name
+        last:
+          type: string
+          description: User last name
+        initials:
+          type: string
+          description: User initials
+        cell_phone:
+          type: string
+          description: User cell phone
+        email:
+          type: string
+          description: User email
+        city:
+          type: string
+          description: User city
+        state:
+          type: string
+          description: User state
+        zip:
+          type: string
+          description: User zip code
+        country:
+          type: string
+          description: User country
+        created:
+          type: integer
+          description: Unix timestamp representing user creation date
+        logged_in:
+          type: boolean
+          description: Indicates whether the added user has completed account creation
+        assigned_mount:
+          type: boolean
+          description: Indicates whether the added user was assigned a mount ID
+        mount_id:
+          type: string
+          description: Assigned mount ID (if assigned)
+        company:
+          $ref: '#/components/schemas/projectsprojectusers_company'
+        permissions:
+          $ref: '#/components/schemas/projectsprojectusers_permissions'
+      example:
+        zip: zip
+        country: country
+        assigned_mount: true
+        last: last
+        city: city
+        initials: initials
+        created: 0
+        logged_in: true
+        cell_phone: cell_phone
+        permissions:
+          dashboard_access:
+          - dashboard_access
+          - dashboard_access
+          company_only_visibility: true
+          anonymized_individuals: true
+        name: name
+        company:
+          name: name
+          id: id
+        id: id
+        state: state
+        first: first
+        email: email
+        mount_id: mount_id
+    inline_response_200_6:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: returns success indication of user addition
+        id:
+          type: string
+          description: returns unique ID of added user
+      example:
+        success: true
+        id: id
+    inline_response_200_7:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Worker full name
+        id:
+          type: string
+          description: Worker ID
+        first:
+          type: string
+          description: Worker first name
+        last:
+          type: string
+          description: Worker last name
+        initials:
+          type: string
+          description: Worker initials
+        cell_phone:
+          type: string
+          description: Worker cell phone
+        email:
+          type: string
+          description: Worker email
+        city:
+          type: string
+          description: Worker city
+        state:
+          type: string
+          description: Worker state
+        zip:
+          type: string
+          description: Worker zip code
+        country:
+          type: string
+          description: Worker country
+        created:
+          type: integer
+          description: Unix timestamp representing worker creation date
+        assigned_mount:
+          type: boolean
+          description: Indicates whether the added user was assigned a mount ID
+        mount_id:
+          type: string
+          description: Assigned mount ID (if assigned)
+        last_seen:
+          type: integer
+          description: Unix timestamp representing last sensor touch-point (shift
+            start or shift end). Returns 0 if no shifts have been logged yet
+        on_site:
+          type: boolean
+          description: Indicates whether the worker is currently on site
+        company:
+          $ref: '#/components/schemas/projectsprojectusers_company'
+      example:
+        zip: zip
+        country: country
+        assigned_mount: true
+        last: last
+        last_seen: 6
+        city: city
+        initials: initials
+        created: 0
+        cell_phone: cell_phone
+        name: name
+        company:
+          name: name
+          id: id
+        id: id
+        state: state
+        first: first
+        email: email
+        mount_id: mount_id
+        on_site: true
+    inline_response_200_11_workers:
       type: object
       properties:
         name:
@@ -477,6 +1354,18 @@ components:
         arrival_local: arrival_local
         on_site: true
         arrival_unix: 5
+    inline_response_200_8:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: returns success indication of worker addition
+        id:
+          type: string
+          description: returns unique ID of added worker
+      example:
+        success: true
+        id: id
     projectszones_workers:
       type: object
       properties:
@@ -493,16 +1382,7 @@ components:
       example:
         name: name
         id: id
-        total_time: 5.962133916683182
-    body:
-      required:
-      - grant_type
-      type: object
-      properties:
-        grant_type:
-          type: string
-        refresh_token:
-          type: string
+        total_time: 5.962133916683182377482808078639209270477294921875
     projectszones_traffic:
       type: object
       properties:
@@ -523,119 +1403,36 @@ components:
       example:
         name: name
         id: id
-        total_time: 1.4658129805029452
+        total_time: 1.46581298050294517310021547018550336360931396484375
         workers:
         - name: name
           id: id
-          total_time: 5.962133916683182
+          total_time: 5.962133916683182377482808078639209270477294921875
         - name: name
           id: id
-          total_time: 5.962133916683182
-    inline_response_200_4_subcontractors:
+          total_time: 5.962133916683182377482808078639209270477294921875
+    projectsprojectusers_permissions:
       type: object
       properties:
-        name:
-          type: string
-          description: returns name of subcontractor
-        id:
-          type: string
-          description: returns unique id of subcontractor
-        headcount:
-          type: integer
-          description: returns total headcount of subcontractor for selected date
-        change:
-          type: number
-          description: returns percentage difference in total headcount of subcontractor
-            relative to previous date
-        trend:
-          type: string
-          description: returns trend of percentage difference in total headcount of
-            subcontractor relative to previous date
-        workers:
+        anonymized_individuals:
+          type: boolean
+          description: Permission indicating access to anonymized-only data sets
+        company_only_visibility:
+          type: boolean
+          description: Permission indicating limited access to company-specific data
+        dashboard_access:
           type: array
+          description: Permission indicating dashboard access within the WorkerSense®
+            web platform
           items:
-            $ref: '#/components/schemas/inline_response_200_4_workers'
+            type: string
+            description: Returns accessible dashboard
       example:
-        headcount: 6
-        trend: trend
-        change: 1.4658129805029452
-        name: name
-        id: id
-        workers:
-        - name: name
-          id: id
-          arrival_local: arrival_local
-          on_site: true
-          arrival_unix: 5
-        - name: name
-          id: id
-          arrival_local: arrival_local
-          on_site: true
-          arrival_unix: 5
-    body_3:
-      required:
-      - client
-      - date
-      - project
-      type: object
-      properties:
-        client:
-          type: string
-          description: Client ID
-        project:
-          type: string
-          description: Project ID
-        date:
-          type: string
-          description: "Date, formatted YYYY-MM-DD"
-    body_4:
-      required:
-      - client
-      - date
-      - project
-      type: object
-      properties:
-        client:
-          type: string
-          description: Client ID
-        project:
-          type: string
-          description: Project ID
-        date:
-          type: string
-          description: "Date, formatted YYYY-MM-DD"
-    body_1:
-      required:
-      - client
-      - date
-      - project
-      type: object
-      properties:
-        client:
-          type: string
-          description: Client ID
-        project:
-          type: string
-          description: Project ID
-        date:
-          type: string
-          description: "Date, formatted YYYY-MM-DD"
-    body_2:
-      required:
-      - client
-      - date
-      - project
-      type: object
-      properties:
-        client:
-          type: string
-          description: Client ID
-        project:
-          type: string
-          description: Project ID
-        date:
-          type: string
-          description: "Date, formatted YYYY-MM-DD"
+        dashboard_access:
+        - dashboard_access
+        - dashboard_access
+        company_only_visibility: true
+        anonymized_individuals: true
     inline_response_200_1:
       type: object
       properties:
@@ -672,168 +1469,74 @@ components:
         start: 5
         client: client
         project: project
-        progression: 1.4658129805029452
-        lon: 0.8008281904610115
+        progression: 1.46581298050294517310021547018550336360931396484375
+        lon: 0.80082819046101150206595775671303272247314453125
         state: state
-        lat: 6.027456183070403
-    inline_response_200:
+        lat: 6.02745618307040320615897144307382404804229736328125
+    inline_response_200_2:
       type: object
       properties:
-        access_token:
+        success:
+          type: boolean
+          description: returns success indication of project creation
+        id:
           type: string
-        refresh_token:
-          type: string
-        token_type:
-          type: string
-        expires:
-          type: integer
+          description: returns unique ID of created project
       example:
-        access_token: access_token
-        refresh_token: refresh_token
-        expires: 0
-        token_type: token_type
-    inline_response_200_2:
+        success: true
+        id: id
+    inline_response_200_3:
       type: object
       properties:
         name:
           type: string
-          description: returns name of subcontractor
+          description: Company name
         id:
           type: string
-          description: returns unique ID of subcontractor
-        on_site:
-          type: boolean
-          description: "returns true if subcontractor has workers on site, false if\
-            \ not"
-        headcount:
-          type: integer
-          description: returns total subcontractor headcount
-        arrival_local:
+          description: Company ID
+        address_1:
           type: string
-          description: "returns average subcontractor arrival time, formatted in a\
-            \ localized h:mm PM timestamp"
-        arrival_unix:
-          type: integer
-          description: "returns average subcontractor arrival time, formatted as a\
-            \ unix timestamp"
-        workers:
-          type: array
-          items:
-            $ref: '#/components/schemas/projectstimecards_workers'
+          description: "Company address, primary"
+        address_2:
+          type: string
+          description: "Company address, secondary"
+        city:
+          type: string
+          description: Company city
+        state:
+          type: string
+          description: Company state
+        zip:
+          type: string
+          description: Company zip
+        country:
+          type: string
+          description: Company country
+        phone:
+          type: string
+          description: Company phone
       example:
-        headcount: 0
+        zip: zip
+        country: country
+        city: city
+        phone: phone
+        address_1: address_1
+        address_2: address_2
         name: name
         id: id
-        arrival_local: arrival_local
-        workers:
-        - duration: 5.637376656633329
-          exit_local: exit_local
-          exit_unix: 5
-          name: name
-          id: id
-          arrival_local: arrival_local
-          on_site: true
-          arrival_unix: 1
-        - duration: 5.637376656633329
-          exit_local: exit_local
-          exit_unix: 5
-          name: name
-          id: id
-          arrival_local: arrival_local
-          on_site: true
-          arrival_unix: 1
-        on_site: true
-        arrival_unix: 6
-    inline_response_200_3:
-      type: object
-      properties:
-        risk:
-          type: string
-          description: returns name of present risk factor
-        id:
-          type: string
-          description: returns id of present risk factor
-        headcount:
-          type: integer
-          description: returns total number of workers exposed to present risk factor
-            for selected date
-        workforce_percentage:
-          type: number
-          description: returns percentage of total workforce exposed to present risk
-            factor for selected date
-        change:
-          type: number
-          description: returns percentage difference in workforce exposure to present
-            risk factor relative to previous date
-        trend:
-          type: string
-          description: returns trend of percentage difference in workforce exposure
-            to present risk factor relative to previous date
-        workers:
-          type: array
-          items:
-            $ref: '#/components/schemas/projectsrisk_workers'
-      example:
-        headcount: 0
-        trend: trend
-        change: 1.4658129805029452
-        risk: risk
-        id: id
-        workforce_percentage: 6.027456183070403
-        workers:
-        - duration: 5.962133916683182
-          day_percentage: 5.637376656633329
-          name: name
-          id: id
-        - duration: 5.962133916683182
-          day_percentage: 5.637376656633329
-          name: name
-          id: id
+        state: state
     inline_response_200_4:
       type: object
       properties:
-        peak_total_manpower:
-          type: integer
-          description: returns peak manpower for selected date
-        subcontractors:
-          type: array
-          items:
-            $ref: '#/components/schemas/inline_response_200_4_subcontractors'
+        success:
+          type: boolean
+          description: returns success indication of company creation
+        id:
+          type: string
+          description: returns unique ID of created company
       example:
-        peak_total_manpower: 0
-        subcontractors:
-        - headcount: 6
-          trend: trend
-          change: 1.4658129805029452
-          name: name
-          id: id
-          workers:
-          - name: name
-            id: id
-            arrival_local: arrival_local
-            on_site: true
-            arrival_unix: 5
-          - name: name
-            id: id
-            arrival_local: arrival_local
-            on_site: true
-            arrival_unix: 5
-        - headcount: 6
-          trend: trend
-          change: 1.4658129805029452
-          name: name
-          id: id
-          workers:
-          - name: name
-            id: id
-            arrival_local: arrival_local
-            on_site: true
-            arrival_unix: 5
-          - name: name
-            id: id
-            arrival_local: arrival_local
-            on_site: true
-            arrival_unix: 5
+        success: true
+        id: id
   securitySchemes:
     BasicAuth:
       type: http
